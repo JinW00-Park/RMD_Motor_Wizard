@@ -2,7 +2,7 @@
 - qt5libprintsupport5
 
 ```sudo apt-get update
-sudo apt-get install -y libqt5printsupport5```
+sudo apt-get install -y libqt5printsupport5 ```
 
 
 
