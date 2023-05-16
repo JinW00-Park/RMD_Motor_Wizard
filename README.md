@@ -5,7 +5,6 @@
 sudo apt-get update
 sudo apt-get install -y libqt5printsupport5 
 ```
-
 <br>
 <br>
 
