@@ -1,0 +1,4 @@
+/home/sj/Desktop/RMD_Motor_Wizard/build/CMakeFiles/rebuild_cache.dir
+/home/sj/Desktop/RMD_Motor_Wizard/build/CMakeFiles/qt_test.dir
+/home/sj/Desktop/RMD_Motor_Wizard/build/CMakeFiles/edit_cache.dir
+/home/sj/Desktop/RMD_Motor_Wizard/build/CMakeFiles/qt_test_autogen.dir
