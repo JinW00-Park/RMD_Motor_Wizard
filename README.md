@@ -8,7 +8,7 @@
 
 <br>
 
-# Dependency 
+# Dependencies
 ### - qt5libprintsupport5
 
 ```
