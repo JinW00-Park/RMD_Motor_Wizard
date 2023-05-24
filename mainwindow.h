@@ -5,7 +5,7 @@
 #include <QTimer>
 #include "qcustomplot.h"
 #include "axistag.h"
-
+#include <QPixmap>
 
 namespace Ui {
 class MainWindow;
@@ -36,14 +36,23 @@ private slots:
 
     void timerSlot();
 
+    void on_pushButton_4_clicked();
+
+    void on_pushButton_5_clicked();
+
 private:
     Ui::MainWindow *ui;
     QTimer mDataTimer;
-    QCustomPlot *mPlot;
+    //QCustomPlot *mPlot;
     QPointer<QCPGraph> mGraph1;
     QPointer<QCPGraph> mGraph2;
+    QPointer<QCPGraph> mGraph3;
+    QPointer<QCPGraph> mGraph4;
     AxisTag *mTag1;
     AxisTag *mTag2;
+    AxisTag *mTag3;
+    AxisTag *mTag4;
+    QPixmap sensor_status;
 
 };
 

@@ -2,18 +2,26 @@
 #include "ui_mainwindow.h"
 #include "socket_can.hpp"
 
+
 SOCKET_CAN_PROTO C_P;
 u_int32_t RTX = 0;
+u_int32_t RTX2 = 0;
 int16_t tq_val=0;
-struct can_frame recv_frame;
-struct can_frame recv_frame2;
-
+struct can_frame recv_frame; //for id serch
+struct can_frame recv_frame2; //for motor status data
+struct can_frame recv_frame3; //for sensor data
+short sensor_temp;
+float sensor_val;
 bool id_table[33]={0};
 char flag_test = 0;
+char sensor_flag = 0;
 int test_num=0;
 
 u_int8_t tqq_data[8]={0xa1,0,0,0,0,0,0,0};
+u_int8_t sensor_data[8]={0,0,0,0,0,0,0,0};
+
 int16_t tqq_val=0;
+
 
 
 //000000000000000000000000000000000000000
@@ -34,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     // Timer setting
     connect(&mDataTimer, SIGNAL(timeout()), this, SLOT(timerSlot()));
-    mDataTimer.start(3);
+    mDataTimer.start(1);
 
 
     /* draw axis*/
@@ -57,6 +65,42 @@ MainWindow::MainWindow(QWidget *parent) :
     mTag2 = new AxisTag(mGraph2->valueAxis());
     mTag2->setPen(mGraph2->pen());
 
+
+
+
+    /* draw axis*/
+    ui->Qplot_2->yAxis->setTickLabels(false);
+    connect(ui->Qplot_2->yAxis2, SIGNAL(rangeChanged(QCPRange)), ui->Qplot_2->yAxis, SLOT(setRange(QCPRange))); // left axis only mirrors inner right axis
+    ui->Qplot_2->yAxis2->setVisible(true);
+    ui->Qplot_2->axisRect()->addAxis(QCPAxis::atRight);
+    ui->Qplot_2->axisRect()->axis(QCPAxis::atRight, 1)->setPadding(35); // add some padding to have space for tags
+
+    // create graphs:
+    mGraph3 = ui->Qplot_2->addGraph(ui->Qplot_2->xAxis, ui->Qplot_2->axisRect()->axis(QCPAxis::atRight, 0));
+    mGraph3->setPen(QPen(QColor(250, 120, 0)));
+
+    // create tags with newly introduced AxisTag class (see axistag.h/.cpp):
+    mTag3 = new AxisTag(mGraph3->valueAxis());
+    mTag3->setPen(mGraph3->pen());
+
+
+    /*
+    sensor_status.load("/home/Downloads/Red_small.png");
+    if(!sensor_status.isNull()){
+        ui->IMG_label->setText("hello___");
+        //ui->IMG_label->show();
+    }
+
+    else{
+        ui->IMG_label->setText("null");
+    }
+    */
+
+
+
+
+    //QPixmap scaledPixmap = sensor_status.scaled(100,100);
+    //ui->IMG_label->setText("hello");
 
 
 }
@@ -225,10 +269,6 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::on_pushButton_3_clicked()
 {
-
-    //mPlot = new QCustomPlot(this);
-    //setCentralWidget(ui->Qplot);
-
     // configure plot to have two right axes:
 
     flag_test = (flag_test==1) ? 0 : 1;
@@ -290,8 +330,6 @@ void MainWindow::timerSlot()
 
 
         old_val = recv_frame2.data[7];
-        std::cout<<"test rev  "<< dec <<encoder_rev[0]<<std::endl;
-
 
         // calculate and add a new data point to each graph:
         mGraph1->addData(mGraph1->dataCount(),motor_deg_dec);
@@ -313,8 +351,59 @@ void MainWindow::timerSlot()
         mTag2->setText(QString::number(graph2Value, 'f', 2));
 
     }// fleg option if
-        ui->Qplot->replot();
+    ui->Qplot->replot();
+
+
+
+    if(sensor_flag){
+        ssize_t NN_byte = C_P.CAN_RECV_8BYTES(RTX2, 2, &recv_frame3);
+        sensor_temp = (int16_t)((recv_frame3.data[3]<<8) | recv_frame3.data[4]);
+
+        sensor_val  = float(sensor_temp)/2000;
+                std::cout<< sensor_val << std::endl;
+        mGraph3->addData(mGraph3->dataCount(),sensor_val);
+
+        ui->Qplot_2->xAxis->rescale();
+        mGraph3->rescaleValueAxis(false, false);
+        ui->Qplot_2->xAxis->setRange(ui->Qplot_2->xAxis->range().upper, 100, Qt::AlignRight);
+
+        double graph1Value = mGraph3->dataMainValue(mGraph3->dataCount()-1);
+
+        mTag3->updatePosition(graph1Value);
+        mTag3->setText(QString::number(graph1Value, 'f', 2));
+
+    }
+    ui->Qplot_2->replot();
 
 }
 
 
+
+void MainWindow::on_pushButton_4_clicked()
+{
+
+    sensor_flag = (sensor_flag==1) ? 0 : 1;
+    if(sensor_flag){
+        ui->pushButton_4->setText("STOP");
+        sensor_data[0]=0x0b;
+        C_P.CAN_WRITE_8BYTES(RTX2,0x64,sensor_data,_PRINT);
+    }
+    else{
+        ui->pushButton_4->setText("Read Sensor");
+        sensor_data[0]=0x0c;
+        C_P.CAN_WRITE_8BYTES(RTX2,0x64,sensor_data,_PRINT);
+    }
+
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+
+    if(RTX2 == 0){
+        ui->label->setText("SET socket");
+        RTX2 = C_P.CAN_INIT_("can8");
+    }
+    else{
+       ui->label->setText("Socket Port Already setted");
+    }
+}
