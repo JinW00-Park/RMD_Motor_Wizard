@@ -22,9 +22,7 @@ u_int8_t sensor_data[8]={0,0,0,0,0,0,0,0};
 
 int16_t tqq_val=0;
 
-
-
-//000000000000000000000000000000000000000
+/******************************************/
 u_int8_t old_val = 0;
 
 int16_t encoder_rev[2] = {0};
@@ -32,7 +30,7 @@ u_int16_t encoder_deg = 0;
 int32_t motor_deg_hex = 0;
 float motor_deg_dec = 0;
 
-//00/000000000000000000000000000000000000
+/******************************************/
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -73,15 +71,20 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->Qplot_2->yAxis2, SIGNAL(rangeChanged(QCPRange)), ui->Qplot_2->yAxis, SLOT(setRange(QCPRange))); // left axis only mirrors inner right axis
     ui->Qplot_2->yAxis2->setVisible(true);
     ui->Qplot_2->axisRect()->addAxis(QCPAxis::atRight);
+    ui->Qplot_2->axisRect()->axis(QCPAxis::atRight, 0)->setPadding(35);
     ui->Qplot_2->axisRect()->axis(QCPAxis::atRight, 1)->setPadding(35); // add some padding to have space for tags
 
     // create graphs:
     mGraph3 = ui->Qplot_2->addGraph(ui->Qplot_2->xAxis, ui->Qplot_2->axisRect()->axis(QCPAxis::atRight, 0));
+    mGraph4 = ui->Qplot_2->addGraph(ui->Qplot_2->xAxis, ui->Qplot_2->axisRect()->axis(QCPAxis::atRight, 1));
     mGraph3->setPen(QPen(QColor(250, 120, 0)));
+    mGraph4->setPen(QPen(QColor(0, 180, 60)));
 
     // create tags with newly introduced AxisTag class (see axistag.h/.cpp):
     mTag3 = new AxisTag(mGraph3->valueAxis());
     mTag3->setPen(mGraph3->pen());
+    mTag4 = new AxisTag(mGraph4->valueAxis());
+    mTag4->setPen(mGraph4->pen());
 
 
     /*
@@ -118,7 +121,7 @@ void MainWindow::on_pushButton_clicked()
         RTX = C_P.CAN_INIT_("can0");
     }
     else{
-       ui->label->setText("Socket Port Already setted");
+       ui->label->setText("Socke Already Binded!");
     }
 
 }
@@ -296,7 +299,9 @@ void MainWindow::timerSlot()
 
         // Read Toeque data
         ssize_t NN_byte = C_P.CAN_RECV_8BYTES(RTX, target_id, &recv_frame2);        // Get motor reply data (timeO: 0.5sec, r-filter: ID)
-
+        if(NN_byte==0){
+            std::cout<<"Recive Failed" << std::endl;
+        }
         /*** Calculate encoder ***/
         // parse encoder data
         encoder_deg = ((recv_frame2.data[7]<<8) + recv_frame2.data[6]);
@@ -309,9 +314,6 @@ void MainWindow::timerSlot()
          else if(((old_val & 0xf0) == 0x00) && ((recv_frame2.data[7] & 0xf0) == 0xf0)){
              encoder_rev[0] --;
          }
-
-        // Display encoder rev val on label
-        ui->label_3->setNum(encoder_rev[0]);
 
         /*** Calculate revolution Degree of motor to degree ***/
         // CW
@@ -357,20 +359,28 @@ void MainWindow::timerSlot()
 
     if(sensor_flag){
         ssize_t NN_byte = C_P.CAN_RECV_8BYTES(RTX2, 2, &recv_frame3);
+        if(NN_byte==0){
+            std::cout<<"Recive Failed" << std::endl;
+        }
+        /* Sensor Data parsor */
         sensor_temp = (int16_t)((recv_frame3.data[3]<<8) | recv_frame3.data[4]);
-
         sensor_val  = float(sensor_temp)/2000;
-                std::cout<< sensor_val << std::endl;
+
         mGraph3->addData(mGraph3->dataCount(),sensor_val);
+        mGraph4->addData(mGraph4->dataCount(), tq_val);
 
         ui->Qplot_2->xAxis->rescale();
-        mGraph3->rescaleValueAxis(false, false);
+        mGraph3->rescaleValueAxis(false, true);
+        mGraph4->rescaleValueAxis(false, true);
         ui->Qplot_2->xAxis->setRange(ui->Qplot_2->xAxis->range().upper, 100, Qt::AlignRight);
 
-        double graph1Value = mGraph3->dataMainValue(mGraph3->dataCount()-1);
+        double graph3Value = mGraph3->dataMainValue(mGraph3->dataCount()-1);
+        double graph4Value = mGraph4->dataMainValue(mGraph4->dataCount()-1);
 
-        mTag3->updatePosition(graph1Value);
-        mTag3->setText(QString::number(graph1Value, 'f', 2));
+        mTag3->updatePosition(graph3Value);
+        mTag4->updatePosition(graph4Value);
+        mTag3->setText(QString::number(graph3Value, 'f', 2));
+        mTag4->setText(QString::number(graph4Value, 'f', 2));
 
     }
     ui->Qplot_2->replot();

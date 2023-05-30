@@ -5,7 +5,7 @@
 #include <QTimer>
 #include "qcustomplot.h"
 #include "axistag.h"
-#include <QPixmap>
+//#include <QPixmap>
 
 namespace Ui {
 class MainWindow;

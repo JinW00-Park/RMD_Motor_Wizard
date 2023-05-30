@@ -42,23 +42,23 @@ public:
     QFrame *line_2;
     QCustomPlot *Qplot;
     QLabel *label_3;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QVBoxLayout *verticalLayout;
     QPushButton *pushButton;
     QPushButton *Run_Button;
     QPushButton *Go_Button;
-    QWidget *widget1;
+    QWidget *layoutWidget1;
     QVBoxLayout *verticalLayout_2;
     QSlider *slider;
     QLabel *val;
-    QWidget *widget2;
+    QWidget *layoutWidget2;
     QVBoxLayout *verticalLayout_3;
     QHBoxLayout *horizontalLayout;
     QSpinBox *ID_NUM;
     QSpinBox *ID_NUM_2;
     QPushButton *Sreach_Button;
     QTextBrowser *textBrowser;
-    QWidget *widget3;
+    QWidget *layoutWidget3;
     QVBoxLayout *verticalLayout_5;
     QHBoxLayout *horizontalLayout_3;
     QHBoxLayout *horizontalLayout_2;
@@ -68,10 +68,15 @@ public:
     QPushButton *pushButton_2;
     QLabel *label_2;
     QTextBrowser *textBrowser_2;
-    QWidget *widget4;
+    QWidget *layoutWidget4;
     QHBoxLayout *horizontalLayout_4;
     QComboBox *ID_BOX_2;
     QPushButton *pushButton_3;
+    QFrame *line_3;
+    QCustomPlot *Qplot_2;
+    QPushButton *pushButton_4;
+    QPushButton *pushButton_5;
+    QLabel *IMG_label;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -80,7 +85,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1060, 688);
+        MainWindow->resize(1068, 1037);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         label = new QLabel(centralWidget);
@@ -110,38 +115,38 @@ public:
         label_3->setGeometry(QRect(910, 320, 101, 31));
         label_3->setLayoutDirection(Qt::LeftToRight);
         label_3->setAlignment(Qt::AlignCenter);
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(210, 10, 291, 112));
-        verticalLayout = new QVBoxLayout(widget);
+        layoutWidget = new QWidget(centralWidget);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(210, 10, 291, 112));
+        verticalLayout = new QVBoxLayout(layoutWidget);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        pushButton = new QPushButton(widget);
+        pushButton = new QPushButton(layoutWidget);
         pushButton->setObjectName(QStringLiteral("pushButton"));
 
         verticalLayout->addWidget(pushButton);
 
-        Run_Button = new QPushButton(widget);
+        Run_Button = new QPushButton(layoutWidget);
         Run_Button->setObjectName(QStringLiteral("Run_Button"));
 
         verticalLayout->addWidget(Run_Button);
 
-        Go_Button = new QPushButton(widget);
+        Go_Button = new QPushButton(layoutWidget);
         Go_Button->setObjectName(QStringLiteral("Go_Button"));
 
         verticalLayout->addWidget(Go_Button);
 
-        widget1 = new QWidget(centralWidget);
-        widget1->setObjectName(QStringLiteral("widget1"));
-        widget1->setGeometry(QRect(30, 170, 461, 40));
-        verticalLayout_2 = new QVBoxLayout(widget1);
+        layoutWidget1 = new QWidget(centralWidget);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(30, 170, 461, 40));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget1);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        slider = new QSlider(widget1);
+        slider = new QSlider(layoutWidget1);
         slider->setObjectName(QStringLiteral("slider"));
         slider->setMinimum(-2000);
         slider->setMaximum(2000);
@@ -149,17 +154,17 @@ public:
 
         verticalLayout_2->addWidget(slider);
 
-        val = new QLabel(widget1);
+        val = new QLabel(layoutWidget1);
         val->setObjectName(QStringLiteral("val"));
         val->setLayoutDirection(Qt::LeftToRight);
         val->setAlignment(Qt::AlignCenter);
 
         verticalLayout_2->addWidget(val);
 
-        widget2 = new QWidget(centralWidget);
-        widget2->setObjectName(QStringLiteral("widget2"));
-        widget2->setGeometry(QRect(60, 340, 401, 251));
-        verticalLayout_3 = new QVBoxLayout(widget2);
+        layoutWidget2 = new QWidget(centralWidget);
+        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
+        layoutWidget2->setGeometry(QRect(60, 340, 401, 251));
+        verticalLayout_3 = new QVBoxLayout(layoutWidget2);
         verticalLayout_3->setSpacing(6);
         verticalLayout_3->setContentsMargins(11, 11, 11, 11);
         verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
@@ -167,14 +172,14 @@ public:
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(6);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        ID_NUM = new QSpinBox(widget2);
+        ID_NUM = new QSpinBox(layoutWidget2);
         ID_NUM->setObjectName(QStringLiteral("ID_NUM"));
         ID_NUM->setMinimum(141);
         ID_NUM->setMaximum(172);
 
         horizontalLayout->addWidget(ID_NUM);
 
-        ID_NUM_2 = new QSpinBox(widget2);
+        ID_NUM_2 = new QSpinBox(layoutWidget2);
         ID_NUM_2->setObjectName(QStringLiteral("ID_NUM_2"));
         ID_NUM_2->setMinimum(141);
         ID_NUM_2->setMaximum(173);
@@ -182,7 +187,7 @@ public:
 
         horizontalLayout->addWidget(ID_NUM_2);
 
-        Sreach_Button = new QPushButton(widget2);
+        Sreach_Button = new QPushButton(layoutWidget2);
         Sreach_Button->setObjectName(QStringLiteral("Sreach_Button"));
 
         horizontalLayout->addWidget(Sreach_Button);
@@ -190,15 +195,15 @@ public:
 
         verticalLayout_3->addLayout(horizontalLayout);
 
-        textBrowser = new QTextBrowser(widget2);
+        textBrowser = new QTextBrowser(layoutWidget2);
         textBrowser->setObjectName(QStringLiteral("textBrowser"));
 
         verticalLayout_3->addWidget(textBrowser);
 
-        widget3 = new QWidget(centralWidget);
-        widget3->setObjectName(QStringLiteral("widget3"));
-        widget3->setGeometry(QRect(560, 20, 451, 271));
-        verticalLayout_5 = new QVBoxLayout(widget3);
+        layoutWidget3 = new QWidget(centralWidget);
+        layoutWidget3->setObjectName(QStringLiteral("layoutWidget3"));
+        layoutWidget3->setGeometry(QRect(560, 20, 451, 271));
+        verticalLayout_5 = new QVBoxLayout(layoutWidget3);
         verticalLayout_5->setSpacing(6);
         verticalLayout_5->setContentsMargins(11, 11, 11, 11);
         verticalLayout_5->setObjectName(QStringLiteral("verticalLayout_5"));
@@ -209,12 +214,12 @@ public:
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setSpacing(6);
         horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
-        ID_BOX = new QComboBox(widget3);
+        ID_BOX = new QComboBox(layoutWidget3);
         ID_BOX->setObjectName(QStringLiteral("ID_BOX"));
 
         horizontalLayout_2->addWidget(ID_BOX);
 
-        ID_NUM_3 = new QSpinBox(widget3);
+        ID_NUM_3 = new QSpinBox(layoutWidget3);
         ID_NUM_3->setObjectName(QStringLiteral("ID_NUM_3"));
         ID_NUM_3->setMinimum(141);
         ID_NUM_3->setMaximum(170);
@@ -227,12 +232,12 @@ public:
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
-        pushButton_2 = new QPushButton(widget3);
+        pushButton_2 = new QPushButton(layoutWidget3);
         pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
 
         verticalLayout_4->addWidget(pushButton_2);
 
-        label_2 = new QLabel(widget3);
+        label_2 = new QLabel(layoutWidget3);
         label_2->setObjectName(QStringLiteral("label_2"));
         label_2->setLayoutDirection(Qt::LeftToRight);
         label_2->setAlignment(Qt::AlignCenter);
@@ -245,33 +250,50 @@ public:
 
         verticalLayout_5->addLayout(horizontalLayout_3);
 
-        textBrowser_2 = new QTextBrowser(widget3);
+        textBrowser_2 = new QTextBrowser(layoutWidget3);
         textBrowser_2->setObjectName(QStringLiteral("textBrowser_2"));
 
         verticalLayout_5->addWidget(textBrowser_2);
 
-        widget4 = new QWidget(centralWidget);
-        widget4->setObjectName(QStringLiteral("widget4"));
-        widget4->setGeometry(QRect(550, 320, 192, 28));
-        horizontalLayout_4 = new QHBoxLayout(widget4);
+        layoutWidget4 = new QWidget(centralWidget);
+        layoutWidget4->setObjectName(QStringLiteral("layoutWidget4"));
+        layoutWidget4->setGeometry(QRect(550, 320, 192, 28));
+        horizontalLayout_4 = new QHBoxLayout(layoutWidget4);
         horizontalLayout_4->setSpacing(6);
         horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
-        ID_BOX_2 = new QComboBox(widget4);
+        ID_BOX_2 = new QComboBox(layoutWidget4);
         ID_BOX_2->setObjectName(QStringLiteral("ID_BOX_2"));
 
         horizontalLayout_4->addWidget(ID_BOX_2);
 
-        pushButton_3 = new QPushButton(widget4);
+        pushButton_3 = new QPushButton(layoutWidget4);
         pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
 
         horizontalLayout_4->addWidget(pushButton_3);
 
+        line_3 = new QFrame(centralWidget);
+        line_3->setObjectName(QStringLiteral("line_3"));
+        line_3->setGeometry(QRect(10, 630, 1011, 16));
+        line_3->setFrameShape(QFrame::HLine);
+        line_3->setFrameShadow(QFrame::Sunken);
+        Qplot_2 = new QCustomPlot(centralWidget);
+        Qplot_2->setObjectName(QStringLiteral("Qplot_2"));
+        Qplot_2->setGeometry(QRect(200, 660, 721, 291));
+        pushButton_4 = new QPushButton(centralWidget);
+        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
+        pushButton_4->setGeometry(QRect(60, 700, 98, 25));
+        pushButton_5 = new QPushButton(centralWidget);
+        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
+        pushButton_5->setGeometry(QRect(60, 670, 98, 25));
+        IMG_label = new QLabel(centralWidget);
+        IMG_label->setObjectName(QStringLiteral("IMG_label"));
+        IMG_label->setGeometry(QRect(40, 740, 131, 91));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1060, 22));
+        menuBar->setGeometry(QRect(0, 0, 1068, 22));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -298,6 +320,9 @@ public:
         pushButton_2->setText(QApplication::translate("MainWindow", "Change ID", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "test val", Q_NULLPTR));
         pushButton_3->setText(QApplication::translate("MainWindow", "read encoder", Q_NULLPTR));
+        pushButton_4->setText(QApplication::translate("MainWindow", "read sensor", Q_NULLPTR));
+        pushButton_5->setText(QApplication::translate("MainWindow", "bind can8", Q_NULLPTR));
+        IMG_label->setText(QString());
     } // retranslateUi
 
 };
