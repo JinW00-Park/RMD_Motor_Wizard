@@ -16,6 +16,7 @@ bool id_table[33]={0};
 char flag_test = 0;
 char sensor_flag = 0;
 int test_num=0;
+float offset_val =0;
 
 u_int8_t tqq_data[8]={0xa1,0,0,0,0,0,0,0};
 u_int8_t sensor_data[8]={0,0,0,0,0,0,0,0};
@@ -364,7 +365,7 @@ void MainWindow::timerSlot()
         }
         /* Sensor Data parsor */
         sensor_temp = (int16_t)((recv_frame3.data[3]<<8) | recv_frame3.data[4]);
-        sensor_val  = float(sensor_temp)/2000;
+        sensor_val  = (float(sensor_temp)/2000)-offset_val;
 
         mGraph3->addData(mGraph3->dataCount(),sensor_val);
         mGraph4->addData(mGraph4->dataCount(), tq_val);
@@ -416,4 +417,16 @@ void MainWindow::on_pushButton_5_clicked()
     else{
        ui->label->setText("Socket Port Already setted");
     }
+}
+
+void MainWindow::on_Zero_button_clicked()
+{
+      if(sensor_flag){
+          offset_val = sensor_val;
+      }
+}
+
+void MainWindow::on_clear_button_clicked()
+{
+    offset_val=0;
 }
